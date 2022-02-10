@@ -14,12 +14,12 @@ BATCH_SIZE = 128       # minibatch size
 GAMMA = 0.99            # 0.99 discount factor
 TAU = 1e-3              # for soft update of target parameters
 LR_ACTOR = 1e-4         # 2e-4 learning rate of the actor # ADDED
-LR_CRITIC = 1e-4        # 2e-4 learning rate of the critic # ADDED
+LR_CRITIC = 1e-3        # 2e-4 learning rate of the critic # ADDED
 WEIGHT_DECAY = 0        # L2 weight decay
 LEARN_EVERY = 20        # Update the networks 10 times after every 20 timesteps
 LEARN_NUMBER = 10       # Update the networks 10 times after every 20 timesteps
-EPSILON = 1.0           # Noise factor
-EPSILON_DECAY = 0.999999  # Noise factor decay
+#EPSILON = 1.0           # Noise factor
+#EPSILON_DECAY = 0.999999  # Noise factor decay
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -51,7 +51,7 @@ class Agent():
 
         # Noise process
         self.noise = OUNoise(action_size, random_seed)
-        self.epsilon = EPSILON
+        #self.epsilon = EPSILON
 
         # Replay memory
         self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
@@ -77,7 +77,7 @@ class Agent():
             action = self.actor_local(state).cpu().data.numpy()
         self.actor_local.train()
         if add_noise:
-            action += self.noise.sample() * self.epsilon
+            action += self.noise.sample() # * self.epsilon
         return np.clip(action, -1, 1)
 
     def reset(self):
@@ -126,7 +126,7 @@ class Agent():
         self.soft_update(self.actor_local, self.actor_target, TAU)                     
         
         # ----------------------- update epsilon and noise ----------------------- #
-        self.epsilon *= EPSILON_DECAY
+        #self.epsilon *= EPSILON_DECAY
         self.noise.reset()
     
     def soft_update(self, local_model, target_model, tau):
