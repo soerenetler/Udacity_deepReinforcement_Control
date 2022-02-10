@@ -30,8 +30,6 @@ The critic also has three layers with the chosen action concatenated with the ou
  - WEIGHT_DECAY = 0        # L2 weight decay
  - LEARN_EVERY = 20        # Update the networks 10 times after every 20 timesteps
  - LEARN_NUMBER = 10       # Update the networks 10 times after every 20 timesteps
- - EPSILON = 1.0           # Noise factor
- - EPSILON_DECAY = 0.999999  # Noise factor decay
 
 ## Learning Curve
 ![Reward curve](learning.png?raw=true)
